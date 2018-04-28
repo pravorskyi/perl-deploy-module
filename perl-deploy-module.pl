@@ -4,17 +4,7 @@ use warnings;
 use Getopt::Long;
 use Switch;
 
-sub deploy($)
-{
-	my $path = shift;
-	print "Deploying \"".$path."\"...\n";
-}
-
-sub undeploy($)
-{
-	my $path = shift;
-	print "Undeploying \"".$path."\"...\n";
-}
+use AbstractServer;
 
 sub main
 {
@@ -25,10 +15,12 @@ sub main
 				 "application=s" => \$application )
 		or die "Error in command line arguments.\n";
 
+	my $server = AbstractServer->create("Tomcat8");
+
 	switch( $action )
 	{
-		case "deploy" { deploy( $application ) }
-		case "undeploy" { undeploy ($application ) } 
+		case "deploy" { $server->deploy( $application ) }
+		case "undeploy" { $server->undeploy ($application ) } 
 		else { die "Invalid option \"action\"." }
 	}
 
