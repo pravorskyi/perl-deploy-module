@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
+use Config::Simple;
 use Getopt::Long;
 use Switch;
 
@@ -9,22 +10,28 @@ use AbstractServer;
 sub main
 {
 	my $action = "";
-	my $application = "";
+	my $configfile = "";
+	my %config = ( "action" => \$action,
+				   "config" => \$configfile );
 
-	GetOptions( "action=s" => \$action,
-				 "application=s" => \$application )
+	GetOptions( \%config,
+				"action=s",
+				"application=s",
+				"config=s",
+				"port=i" )
 		or die "Error in command line arguments.\n";
 
-	my $server = AbstractServer->create("Tomcat8");
+	Config::Simple->import_from($configfile, \%config)
+		or die Config::Simple->error();
+
+	my $server = AbstractServer->create("Tomcat8", \%config);
 
 	switch( $action )
 	{
-		case "deploy" { $server->deploy( $application ) }
-		case "undeploy" { $server->undeploy ($application ) } 
+		case "deploy" { $server->deploy() }
+		case "undeploy" { $server->undeploy () }
 		else { die "Invalid option \"action\"." }
 	}
-
-	return 0;
 }
 
 main();

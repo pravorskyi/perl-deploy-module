@@ -12,7 +12,6 @@ sub create
 	$class = "PDM_Server::$requested_type";
 
 	require $location;
-
 	return $class->new(@_);
 }
 

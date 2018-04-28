@@ -3,25 +3,26 @@ package PDM_Server::Tomcat8;
 use strict;
 use warnings;
 
+our $Config = ();
+
 sub new
 {
 	my $type = shift;
+	our $Config = shift;
 	my $self = bless( {}, $type );
 	return $self;
 }
 
-sub deploy($)
+sub deploy
 {
-	my $type = shift;
-	my $path = shift;
-	print "Deploying \"".$path."\"...\n";
+	our $Config;
+	print "Deploying \"".$Config->{"application"}."\"...\n";
 }
 
-sub undeploy($)
+sub undeploy
 {
-	my $type = shift;
-	my $path = shift;
-	print "Undeploying \"".$path."\"...\n";
+	our $Config;
+	print "Undeploying \"".$Config->{"application"}."\"...\n";
 }
 
 1;
