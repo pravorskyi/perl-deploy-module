@@ -116,4 +116,47 @@ sub stop
 	}
 }
 
+sub check_alive
+{
+	our $Config;
+	our $server;
+	print "Check if application \"".$Config->{"path"}."\" is alive...\n";
+
+	my $ua = LWP::UserAgent->new;
+	my $resp = $ua->get( $server."/".$Config->{"path"}."/" );
+	if ( $resp->is_success ){
+		print "OK. Response code: ".$resp->code."\n";
+	}
+	else{
+		die $resp->status_line;
+	}
+}
+
+sub check_available
+{
+		our $Config;
+	our $server;
+	print "Check if application \"".$Config->{"path"}."\" is available...\n";
+
+	my $ua = LWP::UserAgent->new;
+	my $req = HTTP::Request->new;
+	$req->method( 'GET' );
+	$req->url( $server."/manager/text/list" );
+	$req->authorization_basic( $Config->{"user"} , $Config->{"password"} );
+
+	my $resp = $ua->request( $req );
+	if ( $resp->is_success ){
+		my $path = $Config->{"path"};
+		if( $resp->content() =~ m/$path/ )
+		{
+			print "OK. Application is available\n";
+		} else {
+			print "OK. Application is NOT available\n";
+		}
+	}
+	else{
+		die $resp->status_line;
+	}
+}
+
 1;
