@@ -147,9 +147,12 @@ sub check_available
 	my $resp = $ua->request( $req );
 	if ( $resp->is_success ){
 		my $path = $Config->{"path"};
-		if( $resp->content() =~ m/$path/ )
+		my @lines = split( "\n", $resp->content() );
+		my @matches = grep /^\/$path/, @lines;
+		if( @matches )
 		{
 			print "OK. Application is available\n";
+			# print @matches, "\n";
 		} else {
 			print "OK. Application is NOT available\n";
 		}
