@@ -12,7 +12,9 @@ sub main
 	my $action = "";
 	my $configfile = "";
 	my %config = ( "action" => \$action,
-				   "config" => \$configfile );
+				   "config" => \$configfile,
+				   "hostname" => "localhost",
+				   "port"	=> 8080 );
 
 	GetOptions( \%config,
 				"action=s",
@@ -21,8 +23,11 @@ sub main
 				"port=i" )
 		or die "Error in command line arguments.\n";
 
-	Config::Simple->import_from($configfile, \%config)
-		or die Config::Simple->error();
+	if($configfile)
+	{
+		Config::Simple->import_from($configfile, \%config)
+			or die Config::Simple->error();
+	}
 
 	my $server = AbstractServer->create("Tomcat8", \%config);
 
