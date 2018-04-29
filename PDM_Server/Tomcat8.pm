@@ -14,7 +14,6 @@ sub new
 	my $type = shift;
 	our $Config = shift;
 	our $server = "http://".$Config->{"hostname"}.":".$Config->{"port"};
-	print $server;
 	my $self = bless( {}, $type );
 	return $self;
 }
@@ -60,6 +59,52 @@ sub undeploy
 	my $req = HTTP::Request->new;
 	$req->method( 'GET' );
 	$req->url( $server."/manager/text/undeploy?path=/".$Config->{"path"} );
+	$req->authorization_basic( $Config->{"user"} , $Config->{"password"} );
+
+	my $resp = $ua->request( $req );
+	if ( $resp->is_success ){
+		print $resp->content() . "\n";
+	}
+	else{
+		die $resp->status_line;
+	}
+}
+
+# Start application via Apache Tomcat Manager
+# https://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html#Start_an_Existing_Application
+sub start
+{
+	our $Config;
+	our $server;
+	print "Starting \"".$Config->{"path"}."\"...\n";
+
+	my $ua = LWP::UserAgent->new;
+	my $req = HTTP::Request->new;
+	$req->method( 'GET' );
+	$req->url( $server."/manager/text/start?path=/".$Config->{"path"} );
+	$req->authorization_basic( $Config->{"user"} , $Config->{"password"} );
+
+	my $resp = $ua->request( $req );
+	if ( $resp->is_success ){
+		print $resp->content() . "\n";
+	}
+	else{
+		die $resp->status_line;
+	}
+}
+
+# Stop application via Apache Tomcat Manager
+# https://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html#Stop_an_Existing_Application
+sub stop
+{
+	our $Config;
+	our $server;
+	print "Stopping \"".$Config->{"path"}."\"...\n";
+
+	my $ua = LWP::UserAgent->new;
+	my $req = HTTP::Request->new;
+	$req->method( 'GET' );
+	$req->url( $server."/manager/text/stop?path=/".$Config->{"path"} );
 	$req->authorization_basic( $Config->{"user"} , $Config->{"password"} );
 
 	my $resp = $ua->request( $req );

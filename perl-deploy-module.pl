@@ -33,8 +33,10 @@ sub main
 
 	switch( $action )
 	{
-		case "deploy" { $server->deploy() }
+		case "deploy"   { $server->deploy() }
 		case "undeploy" { $server->undeploy () }
+		case "start"    { $server->start() }
+		case "stop"     { $server->stop() }
 		else { die "Invalid option \"action\"." }
 	}
 }
