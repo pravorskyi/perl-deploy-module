@@ -116,6 +116,7 @@ sub stop
 	}
 }
 
+# Check if application is alive via downloading application's root '<application>/'
 sub check_alive
 {
 	our $Config;
@@ -132,6 +133,9 @@ sub check_alive
 	}
 }
 
+# Check if application is available via Apache Tomcat Manager
+# https://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html#List_Currently_Deployed_Applications
+# Check if application in list
 sub check_available
 {
 		our $Config;
