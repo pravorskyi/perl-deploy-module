@@ -23,4 +23,7 @@ export PERL_USE_UNSAFE_INC=1
 # Check alive
 ./perl-deploy-module.pl --action check-alive --config test.cfg
 
+# Use only command-line options
+./perl-deploy-module.pl --action stop --config test.cfg --user pdm --password qwerty --path samp
+
 ```
