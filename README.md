@@ -1,6 +1,8 @@
 # perl-deploy-module
 Test task "Plugin Developer test"
 
+Perl and Tomcat8 were chosen.
+
 ```bash
 # For testing purposes only
 export PERL_USE_UNSAFE_INC=1
