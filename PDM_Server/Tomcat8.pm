@@ -13,7 +13,11 @@ sub new
 {
 	my $type = shift;
 	our $Config = shift;
+	# Check params
+	die "Missing hostname or port" unless $Config->{"hostname"} and $Config->{"port"};
+
 	our $server = "http://".$Config->{"hostname"}.":".$Config->{"port"};
+
 	my $self = bless( {}, $type );
 	return $self;
 }
@@ -41,6 +45,7 @@ sub deploy
 	my $resp = $ua->request( $req );
 	if ( $resp->is_success ){
 		print $resp->content() . "\n";
+		die unless ($resp->content() !~ /^FAIL/);
 	}
 	else{
 		die $resp->status_line;
@@ -64,6 +69,7 @@ sub undeploy
 	my $resp = $ua->request( $req );
 	if ( $resp->is_success ){
 		print $resp->content() . "\n";
+		die unless ($resp->content() !~ /^FAIL/);
 	}
 	else{
 		die $resp->status_line;
