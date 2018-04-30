@@ -144,7 +144,7 @@ sub check_alive
 # Check if application in list
 sub check_available
 {
-		our $Config;
+	our $Config;
 	our $server;
 	print "Check if application \"".$Config->{"path"}."\" is available...\n";
 
