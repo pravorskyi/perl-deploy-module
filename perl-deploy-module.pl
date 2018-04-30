@@ -20,7 +20,9 @@ sub main
 				"action=s",
 				"application=s",
 				"config=s",
-				"port=i" )
+				"password=s",
+				"port=i",
+				"user=s" )
 		or die "Error in command line arguments.\n";
 
 	if($configfile)
