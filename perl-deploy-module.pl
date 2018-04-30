@@ -21,6 +21,7 @@ sub main
 				"application=s",
 				"config=s",
 				"password=s",
+				"path=s",
 				"port=i",
 				"user=s" )
 		or die "Error in command line arguments.\n";
